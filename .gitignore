@@ -1,0 +1,17 @@
+node_modules
+*.lock
+dist
+tsconfig.tsbuildinfo
+.env
+.env*
+logs
+*.webm
+*.sh
+# *.png
+*old*
+source
+mysql
+yarn-error.log
+package-lock.json
+pinball-game-1
+maintaince.html

@@ -1,0 +1,47 @@
+version: '3.8'
+name: $CONTAINER_NAME
+services:
+  server:
+    env_file: .env
+    container_name: $CONTAINER_NAME-server
+    build: ./
+    restart: always
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    environment:
+      - DB_HOST=$DB_HOST
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_DATABASE=$DB_DATABASE
+      - DB_PORT=$DB_PORT
+      - DB_CONNECTION_LIMIT=4
+      - DISCORD_CHANNEL_ID=$DISCORD_CHANNEL_ID
+      - DISCORD_KEY=$DISCORD_KEY
+      - DISCORD_BOT_AVATAR=$DISCORD_BOT_AVATAR
+      - DISCORD_BOT_NAME=$DISCORD_BOT_NAME
+      - REDIS_HOST=redis
+      - REDIS_PORT=$REDIS_DOCKER_PORT
+      - TWITTER_APP_KEY=$TWITTER_APP_KEY
+      - TWITTER_APP_SECRET=$TWITTER_APP_SECRET
+      - TWITTER_ACCESS_TOKEN=$TWITTER_ACCESS_TOKEN
+      - TWITTER_ACCESS_SECRET=$TWITTER_ACCESS_SECRET
+      - CLIENT_URL=$CLIENT_URL
+      - SERVER_URL=$SERVER_URL
+      - TELEGRAM_CHANNEL_ID=$TELEGRAM_CHANNEL_ID
+    networks:
+      - bridge
+    depends_on:
+      - redis
+    links:
+      - redis
+
+  redis:
+    image: redis:alpine
+    container_name: $CONTAINER_NAME-redis
+    ports:
+      - $REDIS_LOCAL_PORT:$REDIS_DOCKER_PORT
+    networks:
+      - bridge
+
+networks:
+  bridge:
