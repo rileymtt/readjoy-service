@@ -32,13 +32,13 @@ services:
     links:
       - redis
 
-  redis:
-    image: redis:alpine
-    container_name: redis
-    ports:
-      - $REDIS_LOCAL_PORT:$REDIS_DOCKER_PORT
-    networks:
-      - bridge
+  # redis:
+  #   image: redis:alpine
+  #   container_name: redis
+  #   ports:
+  #     - $REDIS_LOCAL_PORT:$REDIS_DOCKER_PORT
+  #   networks:
+  #     - bridge
 
 networks:
   database-bridge:
