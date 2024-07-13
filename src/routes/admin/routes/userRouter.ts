@@ -1,14 +1,10 @@
-import { faker } from "@faker-js/faker";
 import dbTables from "config/dbTables";
 import { AdminController } from "controllers";
 import { NextFunction, Request, Response, Router } from "express";
-import generateImage from "helpers/generate-image";
 import { addQueryField, addTableName } from "middleware/admin.middleware";
-import { isAdmin, isSuperAdmin } from "middleware/check-admin-role.middleware";
-import { UserQueries } from "queries/user.queries";
+import { isAdmin } from "middleware/check-admin-role.middleware";
 import { UserRedis } from "redis/directional";
 import { UserService } from "services";
-import { execute } from "utils/mysql.connector";
 const router = Router();
 
 router.post(
@@ -66,41 +62,6 @@ router.post(
           Number(fields.type)
         );
       }
-      res.status(200).json({ isSuccess: true });
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-router.get(
-  "/seek",
-  isSuperAdmin,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      function createRandomUser() {
-        return {
-          username: faker.internet.userName(),
-          email: faker.internet.email(),
-        };
-      }
-
-      const USERS = faker.helpers.multiple(createRandomUser, {
-        count: 10,
-      });
-
-      for (const iterator of USERS) {
-        const result = await execute<{ insertId: number }>(
-          `INSERT INTO ${dbTables.userTable}(email, username, type) VALUES(?, ?, ?)`,
-          [iterator.email, iterator.username, 1]
-        );
-        const randomAvatar = await generateImage();
-        await execute<any>(UserQueries.AddProfile, [
-          result.insertId,
-          randomAvatar,
-        ]);
-      }
-
       res.status(200).json({ isSuccess: true });
     } catch (error) {
       next(error);

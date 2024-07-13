@@ -32,13 +32,13 @@ export default (
   } else {
     console.log(err);
     const userAgent = req.headers["user-agent"];
-    DiscordBot.sendError(
-      String(err.stack),
-      appConfig.EnvironmentConfig.service,
-      appConfig.EnvironmentConfig.env,
-      req.ip,
-      `${userAgent} #${verifyUser.id}`
-    );
+    // DiscordBot.sendError(
+    //   String(err.stack),
+    //   appConfig.EnvironmentConfig.service,
+    //   appConfig.EnvironmentConfig.env,
+    //   req.ip,
+    //   `${userAgent} #${verifyUser.id}`
+    // );
     res.status(500).json({
       success: false,
       errors: [errors.INTERNAL_SERVER_ERROR],

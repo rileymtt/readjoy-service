@@ -6,7 +6,7 @@ type storeKey = "Article" | "Banner" | any;
 const expireTime = 60 * 60;
 
 class RedisClient {
-  client: RedisClientType;
+  client: RedisClientType & any;
   isConnected: boolean;
 
   constructor() {
@@ -77,7 +77,7 @@ class RedisClient {
       this.client.flushDb();
       winstonLogger.info("Connected to Redis");
     });
-    this.client.on("error", (err) => {
+    this.client.on("error", (err: any) => {
       winstonLogger.error("Error connecting to Redis: " + err);
       this.client.disconnect();
       this.isConnected = false;
