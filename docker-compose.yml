@@ -3,7 +3,7 @@ name: ${CONTAINER_NAME}
 services:
   server:
     env_file: .env
-    container_name: ${CONTAINER_NAME}-server
+    container_name: ${CONTAINER_NAME}-backend
     build: ./
     restart: always
     ports:
