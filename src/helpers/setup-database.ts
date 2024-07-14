@@ -80,6 +80,7 @@ const queries = [
 export default async () => {
   try {
     for (const iterator of queries) {
+      console.log(iterator);
       await execute(iterator, []);
     }
     await execute(
