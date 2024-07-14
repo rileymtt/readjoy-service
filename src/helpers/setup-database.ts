@@ -79,22 +79,40 @@ const queries = [
 ];
 export default async () => {
   try {
-    for (const iterator of queries) {
-      console.log(iterator);
-      await execute(iterator, []);
-    }
     await execute(
       `
-            INSERT INTO Administrators(email, password, type)
-            VALUES (?, ?, ?)
-            ON DUPLICATE KEY UPDATE email=email;
-        `,
-      [
-        "realbewhy@gmail.com",
-        "$2b$10$x4aVIPYQh1n/P4M4gK1ak.Fh6KWF5A2Di.NGMdvJ7O3ckmq7M5OWC",
-        0,
-      ]
+      CREATE TABLE IF NOT EXISTS Users (
+        id INT NOT NULL AUTO_INCREMENT,
+        walletAddress VARCHAR(255),
+        username VARCHAR(255),
+        email VARCHAR(255),
+        password LONGTEXT,
+        status INT NOT NULL DEFAULT 1,
+        type INT NOT NULL DEFAULT 0,
+        ref INT,
+        createdAt TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+        updatedAt TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+        PRIMARY KEY (id)
     );
+  `,
+      []
+    );
+    // for (const iterator of queries) {
+    //   console.log(iterator);
+    //   await execute(iterator, []);
+    // }
+    // await execute(
+    //   `
+    //         INSERT INTO Administrators(email, password, type)
+    //         VALUES (?, ?, ?)
+    //         ON DUPLICATE KEY UPDATE email=email;
+    //     `,
+    //   [
+    //     "realbewhy@gmail.com",
+    //     "$2b$10$x4aVIPYQh1n/P4M4gK1ak.Fh6KWF5A2Di.NGMdvJ7O3ckmq7M5OWC",
+    //     0,
+    //   ]
+    // );
   } catch (error) {
     winstonLogger.error(`Error setting up database: ${error}`);
   }
