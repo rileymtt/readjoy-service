@@ -4,7 +4,6 @@ import setupDatabase from "helpers/setup-database";
 import { handleSocket } from "helpers/socker.helper";
 import swaggerDocs from "helpers/swagger";
 import winstonLogger from "loggers/winston.logger";
-import userModel from "models/user.model";
 import { RedisClient } from "redis/main";
 import { Server as SocketIOServer } from "socket.io";
 import * as MySQLConnector from "utils/mysql.connector";
@@ -24,7 +23,6 @@ const server = app.listen(PORT, async () => {
       label: "System",
       message: `Server listening at http://localhost:${PORT}`,
     });
-    userModel.findProfile(1);
     await setupDatabase();
     SocketServer.on("connection", handleSocket);
     swaggerDocs(app);
