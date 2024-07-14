@@ -8,8 +8,7 @@ let pool: Pool;
 export const init = () => {
   try {
     pool = createPool({
-      // connectionLimit: dataSource.DB_CONNECTION_LIMIT,
-      connectionLimit: 100,
+      connectionLimit: dataSource.DB_CONNECTION_LIMIT,
       host: dataSource.DB_HOST,
       user: dataSource.DB_USER,
       password: dataSource.DB_PASSWORD,
@@ -18,7 +17,7 @@ export const init = () => {
     });
     winstonLogger.info("MySql Adapter Pool generated successfully");
   } catch (error) {
-    winstonLogger.error("[mysql.connector][init][Error]: ", error);
+    console.log("[mysql.connector][init][Error]: ", error);
     throw new Error("failed to initialized pool");
   }
 };
@@ -39,7 +38,7 @@ export const execute = <T>(
       });
     });
   } catch (error) {
-    winstonLogger.error("[mysql.connector][execute][Error]: ", error);
+    console.log("[mysql.connector][execute][Error]: ", error);
     throw new Error("failed to execute MySQL query");
   }
 };
