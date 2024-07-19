@@ -13,31 +13,25 @@ const upload: RequestHandler = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const { verifyUser } = req.body;
-    return s3Upload(req, res, function (err: any) {
-      if (err) {
-        console.log(err);
-        if (err.code === "LIMIT_FILE_SIZE") {
-          return res.status(400).json({
-            errors: [
-              {
-                code: "LIMIT_FILE_SIZE",
-                message: `File size limit exceeded. Maximum: ${maxFileSize}MB`,
-              },
-            ],
-          });
-        }
-        return res.status(500);
+  const { verifyUser } = req.body;
+  return s3Upload(req, res, function (err: any) {
+    if (err) {
+      if (err.code === "LIMIT_FILE_SIZE") {
+        return res.status(400).json({
+          errors: [
+            {
+              code: "LIMIT_FILE_SIZE",
+              message: `File size limit exceeded. Maximum: ${maxFileSize}MB`,
+            },
+          ],
+        });
       }
-      const uploadedImages = req.files.map((file: any) => file.location);
-      uploadImageModel.multiCreate(uploadedImages, verifyUser.id);
-      res.status(200).json(uploadedImages);
-    });
-  } catch (error) {
-    console.log(error);
-    next(error);
-  }
+      return res.status(500);
+    }
+    const uploadedImages = req.files.map((file: any) => file.location);
+    uploadImageModel.multiCreate(uploadedImages, verifyUser.id);
+    res.status(200).json(uploadedImages);
+  });
 };
 
 export const s3Controller = {
