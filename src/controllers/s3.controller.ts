@@ -14,6 +14,8 @@ const upload: RequestHandler = async (
   next: NextFunction
 ) => {
   const { verifyUser } = req.body;
+  console.log("Upload", verifyUser);
+
   return s3Upload(req, res, function (err: any) {
     if (err) {
       if (err.code === "LIMIT_FILE_SIZE") {
