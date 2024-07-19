@@ -4,7 +4,7 @@ import { execute } from "utils/mysql.connector";
 export default {
   async getAll(userId: number) {
     const result = await execute<TBook[]>(
-      `SELECT * FROM ${dbTables.Books} WHERE userId = ? LIMIT 100`,
+      `SELECT * FROM ${dbTables.Books} WHERE userId = ? ORDER BY id DESC LIMIT 100`,
       [userId]
     );
     return result;
